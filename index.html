@@ -28,13 +28,13 @@
             position: relative;
         }
 
-        /* Canvas hiệu ứng - Cắt nửa trên màn hình */
+        /* Canvas hiệu ứng */
         #meteor-canvas {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
-            height: 50%; /* Chỉ rơi ở nửa trên */
+            height: 50%;
             pointer-events: none;
             z-index: 0;
             mask-image: linear-gradient(to bottom, black 70%, transparent 100%);
@@ -85,12 +85,23 @@
             color: white;
             transition: all 0.2s ease;
             border: 1px solid var(--color-2);
-            position: relative;
+            position: relative; /* Quan trọng để định vị link phủ */
         }
 
         .link-card:hover {
             transform: translateY(-2px);
             background-color: var(--color-2);
+        }
+
+        /* Link phủ toàn bộ card */
+        .full-link {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 5; /* Nằm trên text và icon */
+            border-radius: 50px;
         }
 
         .icon-box {
@@ -117,9 +128,10 @@
             left: 0;
             right: 0;
             z-index: 1;
+            pointer-events: none; /* Để bấm xuyên qua text xuống link */
         }
 
-        /* Nút copy cùng màu xanh với tên */
+        /* Nút copy phải nổi lên trên cùng */
         .copy-btn {
             background: none;
             border: none;
@@ -128,11 +140,12 @@
             display: flex;
             align-items: center;
             margin-left: auto;
-            z-index: 3;
+            position: relative;
+            z-index: 10; /* Cao hơn .full-link để bấm được */
         }
 
         .copy-btn svg {
-            fill: var(--color-1); /* Đã đổi màu */
+            fill: var(--color-1);
             width: 18px;
             height: 18px;
             transition: fill 0.3s;
@@ -164,16 +177,22 @@
 
         <div class="links-list">
             <div class="link-card">
-                <a href="tel:0939238267" class="icon-box"><svg viewBox="0 0 24 24"><path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/></svg></a>
+                <a href="tel:0939238267" class="full-link"></a>
+                
+                <div class="icon-box"><svg viewBox="0 0 24 24"><path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/></svg></div>
                 <span class="link-text">Phone Number</span>
+                
                 <button class="copy-btn" onclick="copyToClipboard('0939238267')">
                     <svg viewBox="0 0 24 24"><path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/></svg>
                 </button>
             </div>
 
             <div class="link-card">
-                <a href="mailto:hoangkhanhminh2005.vl@gmail.com" class="icon-box"><svg viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg></a>
+                <a href="mailto:hoangkhanhminh2005.vl@gmail.com" class="full-link"></a>
+                
+                <div class="icon-box"><svg viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg></div>
                 <span class="link-text">Email</span>
+                
                 <button class="copy-btn" onclick="copyToClipboard('hoangkhanhminh2005.vl@gmail.com')">
                     <svg viewBox="0 0 24 24"><path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/></svg>
                 </button>
@@ -225,13 +244,12 @@
             }
 
             reset() {
-                // Xuất phát từ cạnh phải hoặc phía trên, chỉ giới hạn trong vùng cao
                 this.x = Math.random() * (canvas.width + 200);
                 this.y = Math.random() * -100;
-                this.size = Math.random() * 0.8 + 0.2; // Tia siêu nhỏ, cực nét
-                this.speed = Math.random() * 2 + 1; // Tốc độ vừa phải
+                this.size = Math.random() * 0.8 + 0.2; 
+                this.speed = Math.random() * 2 + 1; 
                 this.length = Math.random() * 40 + 10;
-                this.opacity = Math.random() * 0.3 + 0.1; // Mờ hơn xíu theo ý mày
+                this.opacity = Math.random() * 0.3 + 0.1;
             }
 
             draw() {
@@ -247,14 +265,12 @@
                 this.x -= this.speed;
                 this.y += this.speed;
 
-                // Reset khi ra khỏi vùng nửa trên hoặc màn hình
                 if (this.y > canvas.height * 0.5 || this.x < -50) {
                     this.reset();
                 }
             }
         }
 
-        // Tăng số lượng tia lên cho nó "đầy" như mưa
         for (let i = 0; i < 40; i++) {
             meteors.push(new Meteor());
         }
