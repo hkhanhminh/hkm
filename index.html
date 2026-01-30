@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bio Page - Khánh Minh</title>
+    <style>
+        :root {
+            --color-1: #406D61;
+            --color-2: #224B40;
+            --color-3: #133129;
+            --color-4: #081F1C;
+            --bg-color: #021010;
+            --accent: #f1c232;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: white;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            padding: 30px 20px;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* Canvas hiệu ứng - Cắt nửa trên màn hình */
+        #meteor-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 50%; /* Chỉ rơi ở nửa trên */
+            pointer-events: none;
+            z-index: 0;
+            mask-image: linear-gradient(to bottom, black 70%, transparent 100%);
+        }
+
+        .container {
+            width: 100%;
+            max-width: 450px;
+            z-index: 1;
+            position: relative;
+        }
+
+        .header {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            margin-bottom: 40px;
+            padding: 10px;
+        }
+
+        .avatar {
+            width: 90px;
+            height: 90px;
+            border-radius: 50%;
+            border: 3px solid var(--color-1);
+            object-fit: cover;
+        }
+
+        .user-name {
+            font-size: 1.35rem;
+            font-weight: bold;
+            color: var(--color-1);
+        }
+
+        .links-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .link-card {
+            background-color: var(--color-3);
+            display: flex;
+            align-items: center;
+            padding: 14px 20px;
+            border-radius: 50px;
+            text-decoration: none;
+            color: white;
+            transition: all 0.2s ease;
+            border: 1px solid var(--color-2);
+            position: relative;
+        }
+
+        .link-card:hover {
+            transform: translateY(-2px);
+            background-color: var(--color-2);
+        }
+
+        .icon-box {
+            width: 24px;
+            height: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            z-index: 2;
+        }
+
+        .link-card svg {
+            width: 20px;
+            height: 20px;
+            fill: white;
+        }
+
+        .link-text {
+            font-weight: 500;
+            flex-grow: 1;
+            text-align: center;
+            position: absolute;
+            left: 0;
+            right: 0;
+            z-index: 1;
+        }
+
+        /* Nút copy cùng màu xanh với tên */
+        .copy-btn {
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 5px;
+            display: flex;
+            align-items: center;
+            margin-left: auto;
+            z-index: 3;
+        }
+
+        .copy-btn svg {
+            fill: var(--color-1); /* Đã đổi màu */
+            width: 18px;
+            height: 18px;
+            transition: fill 0.3s;
+        }
+
+        .copy-btn:hover svg {
+            fill: var(--accent);
+        }
+
+        footer {
+            margin-top: auto;
+            padding: 30px 0 10px;
+            font-size: 0.8rem;
+            color: #444;
+            text-align: center;
+            z-index: 1;
+        }
+    </style>
+</head>
+<body>
+
+    <canvas id="meteor-canvas"></canvas>
+
+    <div class="container">
+        <div class="header">
+            <img src="https://files.catbox.moe/w3z9bz.jpg" alt="Avatar" class="avatar">
+            <div class="user-name">Trần Hoàng Khánh Minh</div>
+        </div>
+
+        <div class="links-list">
+            <div class="link-card">
+                <a href="tel:0939238267" class="icon-box"><svg viewBox="0 0 24 24"><path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/></svg></a>
+                <span class="link-text">Phone Number</span>
+                <button class="copy-btn" onclick="copyToClipboard('0939238267')">
+                    <svg viewBox="0 0 24 24"><path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/></svg>
+                </button>
+            </div>
+
+            <div class="link-card">
+                <a href="mailto:hoangkhanhminh2005.vl@gmail.com" class="icon-box"><svg viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg></a>
+                <span class="link-text">Email</span>
+                <button class="copy-btn" onclick="copyToClipboard('hoangkhanhminh2005.vl@gmail.com')">
+                    <svg viewBox="0 0 24 24"><path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/></svg>
+                </button>
+            </div>
+
+            <a href="https://www.facebook.com/share/1Ttjy7Z7cp/" class="link-card" target="_blank">
+                <div class="icon-box"><svg viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.469h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg></div>
+                <span class="link-text">Facebook</span>
+            </a>
+
+            <a href="https://www.instagram.com/sharma_retkoc?igsh=bng2aG94YmRmdHAy" class="link-card" target="_blank">
+                <div class="icon-box"><svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c.796 0 1.441.645 1.441 1.44s-.645 1.44-1.441 1.44c-.795 0-1.439-.645-1.439-1.44s.644-1.44 1.439-1.44z"/></svg></div>
+                <span class="link-text">Instagram</span>
+            </a>
+
+            <a href="https://t.me/hoang_khanh_minh" class="link-card" target="_blank">
+                <div class="icon-box"><svg viewBox="0 0 24 24"><path d="M12 0c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm5.891 8.146l-2.003 9.442c-.149.659-.539.822-1.088.511l-3.047-2.246-1.47 1.415c-.163.163-.299.299-.614.299l.22-3.111 5.663-5.116c.246-.219-.054-.341-.381-.122l-7.001 4.408-3.016-.943c-.657-.206-.669-.658.138-.973l11.776-4.54c.545-.199 1.022.127.863.877z"/></svg></div>
+                <span class="link-text">Telegram</span>
+            </a>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2026 Khánh Minh. All rights reserved.</p>
+    </footer>
+
+    <script>
+        function copyToClipboard(text) {
+            navigator.clipboard.writeText(text).then(() => {
+                alert('Copied: ' + text);
+            });
+        }
+
+        const canvas = document.getElementById('meteor-canvas');
+        const ctx = canvas.getContext('2d');
+
+        function resize() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        window.addEventListener('resize', resize);
+        resize();
+
+        const meteors = [];
+
+        class Meteor {
+            constructor() {
+                this.reset();
+            }
+
+            reset() {
+                // Xuất phát từ cạnh phải hoặc phía trên, chỉ giới hạn trong vùng cao
+                this.x = Math.random() * (canvas.width + 200);
+                this.y = Math.random() * -100;
+                this.size = Math.random() * 0.8 + 0.2; // Tia siêu nhỏ, cực nét
+                this.speed = Math.random() * 2 + 1; // Tốc độ vừa phải
+                this.length = Math.random() * 40 + 10;
+                this.opacity = Math.random() * 0.3 + 0.1; // Mờ hơn xíu theo ý mày
+            }
+
+            draw() {
+                ctx.beginPath();
+                ctx.strokeStyle = `rgba(64, 109, 97, ${this.opacity})`;
+                ctx.lineWidth = this.size;
+                ctx.moveTo(this.x, this.y);
+                ctx.lineTo(this.x - this.length, this.y + this.length);
+                ctx.stroke();
+            }
+
+            update() {
+                this.x -= this.speed;
+                this.y += this.speed;
+
+                // Reset khi ra khỏi vùng nửa trên hoặc màn hình
+                if (this.y > canvas.height * 0.5 || this.x < -50) {
+                    this.reset();
+                }
+            }
+        }
+
+        // Tăng số lượng tia lên cho nó "đầy" như mưa
+        for (let i = 0; i < 40; i++) {
+            meteors.push(new Meteor());
+        }
+
+        function animate() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            meteors.forEach(m => {
+                m.draw();
+                m.update();
+            });
+            requestAnimationFrame(animate);
+        }
+
+        animate();
+    </script>
+</body>
+</html>
