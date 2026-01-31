@@ -57,6 +57,7 @@
             text-align: center;
         }
 
+        /* Fix viền avatar cùng màu tên */
         .avatar {
             width: 100px;
             height: 100px;
@@ -65,10 +66,26 @@
             object-fit: cover;
         }
 
+        /* Container cho tên và tick xanh */
+        .name-wrapper {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+        }
+
         .user-name {
             font-size: 1.4rem;
             font-weight: bold;
             color: var(--color-1);
+        }
+
+        /* Style cho tick xanh */
+        .verified-tick {
+            width: 20px;
+            height: 20px;
+            fill: #1d9bf0; /* Màu xanh đặc trưng của tick verified */
+            flex-shrink: 0;
         }
 
         .links-list {
@@ -172,7 +189,10 @@
     <div class="container">
         <div class="header">
             <img src="https://files.catbox.moe/w3z9bz.jpg" alt="Avatar" class="avatar">
-            <div class="user-name">Trần Hoàng Khánh Minh</div>
+            <div class="name-wrapper">
+                <div class="user-name">Trần Hoàng Khánh Minh</div>
+                <svg class="verified-tick" viewBox="0 0 24 24"><path d="M22.5 12.5c0-1.58-.88-2.95-2.18-3.66.54-1.27.4-2.73-.39-3.83-1.1-1.1-2.56-1.24-3.83-.39-1.3-.71-2.08-2.08-3.66-2.08s-2.95 1.37-3.66 2.08c-1.27-.54-2.73-.4-3.83.39-1.1 1.1-1.24 2.56-.39 3.83-1.3.71-2.08 2.08-2.08 3.66s1.37 2.95 2.08 3.66c-.54 1.27-.4 2.73.39 3.83 1.1 1.1 2.56 1.24 3.83.39 1.3.71 2.08 2.08 3.66 2.08s2.95-1.37 3.66-2.08c1.27.54 2.73.4 3.83-.39 1.1-1.1 1.24-2.56.39-3.83 1.3-.71 2.08-2.08 2.08-3.66zm-12.5 4.5l-4-4 1.41-1.41L10 14.17l6.59-6.59L18 9l-8 8z"/></svg>
+            </div>
         </div>
 
         <div class="links-list">
