@@ -23,12 +23,12 @@
             flex-direction: column;
             align-items: center;
             min-height: 100vh;
-            padding: 30px 20px;
+            padding: 0;
             overflow-x: hidden;
             position: relative;
         }
 
-        /* Canvas hiệu ứng */
+        /* Meteor Effect */
         #meteor-canvas {
             position: fixed;
             top: 0;
@@ -40,11 +40,16 @@
             mask-image: linear-gradient(to bottom, black 70%, transparent 100%);
         }
 
-        .container {
+        .main-content {
             width: 100%;
-            max-width: 450px;
+            max-width: 420px;
             z-index: 1;
             position: relative;
+            padding: 30px 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            box-sizing: border-box;
         }
 
         .header {
@@ -52,12 +57,10 @@
             flex-direction: column;
             align-items: center;
             gap: 15px;
-            margin-bottom: 40px;
-            padding: 10px;
+            margin-bottom: 35px;
             text-align: center;
         }
 
-        /* Fix viền avatar cùng màu tên */
         .avatar {
             width: 100px;
             height: 100px;
@@ -66,119 +69,132 @@
             object-fit: cover;
         }
 
-        /* Container cho tên và tick xanh */
         .name-wrapper {
             display: flex;
             align-items: center;
-            justify-content: center;
             gap: 6px;
         }
 
         .user-name {
-            font-size: 1.4rem;
+            font-size: 1.3rem;
             font-weight: bold;
             color: var(--color-1);
         }
 
-        /* Style cho tick xanh */
         .verified-tick {
-            width: 20px;
-            height: 20px;
-            fill: #1d9bf0; /* Màu xanh đặc trưng của tick verified */
-            flex-shrink: 0;
+            width: 18px;
+            height: 18px;
+            fill: #1d9bf0;
         }
 
         .links-list {
             display: flex;
             flex-direction: column;
             gap: 12px;
+            width: 100%;
+            margin-bottom: 40px;
         }
 
         .link-card {
             background-color: var(--color-3);
             display: flex;
             align-items: center;
-            padding: 14px 20px;
+            padding: 12px 20px;
             border-radius: 50px;
             text-decoration: none;
             color: white;
-            transition: all 0.2s ease;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             border: 1px solid var(--color-2);
             position: relative;
+            height: 50px;
+            box-sizing: border-box;
         }
 
-        .link-card:hover {
-            transform: translateY(-2px);
+        .link-card:hover { 
+            transform: scale(1.02); 
             background-color: var(--color-2);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
         }
 
-        .full-link {
-            position: absolute;
-            top: 0;
-            left: 0;
+        .full-link { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 5; border-radius: 50px; }
+
+        .icon-box { 
+            width: 24px; height: 24px; 
+            display: flex; align-items: center; justify-content: center; 
+            z-index: 2; 
+        }
+
+        .link-card svg { width: 20px; height: 20px; fill: white; }
+
+        .link-text { 
+            font-weight: 500; 
+            flex-grow: 1; 
+            text-align: center; 
+            z-index: 1; 
+            pointer-events: none; 
+            font-size: 0.95rem;
+        }
+
+        .copy-btn { 
+            background: none; border: none; cursor: pointer; 
+            padding: 5px; display: flex; align-items: center; 
+            z-index: 10; margin-left: auto;
+        }
+
+        .copy-btn svg { fill: var(--color-1); width: 18px; height: 18px; }
+
+        .system-footer {
             width: 100%;
-            height: 100%;
-            z-index: 5;
-            border-radius: 50px;
+            background-color: #051614;
+            border-top: 1px solid var(--color-2);
+            border-radius: 40px 40px 0 0;
+            padding: 45px 20px 30px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 30px;
+            z-index: 1;
+            box-sizing: border-box;
         }
 
-        .icon-box {
-            width: 24px;
-            height: 24px;
+        .badge-grid {
             display: flex;
-            align-items: center;
+            gap: 25px;
             justify-content: center;
-            flex-shrink: 0;
-            z-index: 2;
-        }
-
-        .link-card svg {
-            width: 20px;
-            height: 20px;
-            fill: white;
-        }
-
-        .link-text {
-            font-weight: 500;
-            flex-grow: 1;
-            text-align: center;
-            position: absolute;
-            left: 0;
-            right: 0;
-            z-index: 1;
-            pointer-events: none;
-        }
-
-        .copy-btn {
-            background: none;
-            border: none;
-            cursor: pointer;
-            padding: 5px;
-            display: flex;
             align-items: center;
-            margin-left: auto;
-            position: relative;
-            z-index: 10;
         }
 
-        .copy-btn svg {
-            fill: var(--color-1);
-            width: 18px;
-            height: 18px;
-            transition: fill 0.3s;
+        .badge-box {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+            opacity: 0.6;
+            transition: 0.3s;
         }
 
-        .copy-btn:hover svg {
-            fill: var(--accent);
-        }
+        .badge-box:hover { opacity: 1; }
 
-        footer {
-            margin-top: auto;
-            padding: 30px 0 10px;
-            font-size: 0.8rem;
-            color: #444;
+        .badge-box svg { width: 32px; height: 32px; }
+
+        .badge-tag { font-size: 0.5rem; font-weight: 900; text-transform: uppercase; color: var(--color-1); letter-spacing: 1px; }
+
+        .tech-info {
             text-align: center;
-            z-index: 1;
+            font-size: 0.7rem;
+            line-height: 1.7;
+            color: var(--color-1);
+            max-width: 320px;
+            opacity: 0.8;
+        }
+
+        .tech-info b { color: #8ebdae; }
+
+        .final-copyright {
+            font-size: 0.7rem;
+            color: var(--color-2);
+            font-weight: bold;
+            letter-spacing: 0.5px;
         }
     </style>
 </head>
@@ -186,12 +202,12 @@
 
     <canvas id="meteor-canvas"></canvas>
 
-    <div class="container">
+    <div class="main-content">
         <div class="header">
             <img src="https://files.catbox.moe/w3z9bz.jpg" alt="Avatar" class="avatar">
             <div class="name-wrapper">
                 <div class="user-name">Trần Hoàng Khánh Minh</div>
-                <svg class="verified-tick" viewBox="0 0 24 24"><path d="M22.5 12.5c0-1.58-.88-2.95-2.18-3.66.54-1.27.4-2.73-.39-3.83-1.1-1.1-2.56-1.24-3.83-.39-1.3-.71-2.08-2.08-3.66-2.08s-2.95 1.37-3.66 2.08c-1.27-.54-2.73-.4-3.83.39-1.1 1.1-1.24 2.56-.39 3.83-1.3.71-2.08 2.08-2.08 3.66s1.37 2.95 2.08 3.66c-.54 1.27-.4 2.73.39 3.83 1.1 1.1 2.56 1.24 3.83.39 1.3.71 2.08 2.08 3.66 2.08s2.95-1.37 3.66-2.08c1.27.54 2.73.4 3.83-.39 1.1-1.1 1.24-2.56.39-3.83 1.3-.71 2.08-2.08 2.08-3.66zm-12.5 4.5l-4-4 1.41-1.41L10 14.17l6.59-6.59L18 9l-8 8z"/></svg>
+                <svg class="verified-tick" viewBox="0 0 24 24"><path d="M22.5 12.5c0-1.58-.88-2.95-2.18-3.66.54-1.27.4-2.73-.39-3.83-1.1-1.1-2.56-1.24-3.83-.39-1.3-.71-2.08-2.08-3.66-2.08s-2.95 1.37-3.66 2.08c-1.27-.54-2.73-.4-3.83.39-1.1 1.1-1.24 2.56-.39 3.83-1.3.71-2.08 2.08-2.08 3.66s1.37 2.95 2.08 3.66c-.54 1.27-.4 2.73.39 3.83 1.1 1.1 2.56 1.24 3.83.39 1.3.71-2.08 2.08 3.66 2.08s2.95-1.37 3.66-2.08c1.27.54 2.73.4 3.83-.39 1.1-1.1 1.24-2.56.39-3.83 1.3-.71-2.08-2.08 2.08-3.66zm-12.5 4.5l-4-4 1.41-1.41L10 14.17l6.59-6.59L18 9l-8 8z"/></svg>
             </div>
         </div>
 
@@ -200,39 +216,28 @@
                 <a href="tel:0559694509" class="full-link"></a>
                 <div class="icon-box"><svg viewBox="0 0 24 24"><path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/></svg></div>
                 <span class="link-text">Phone Number</span>
-                <button class="copy-btn" onclick="copyToClipboard('0559694509')">
-                    <svg viewBox="0 0 24 24"><path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/></svg>
-                </button>
+                <button class="copy-btn" onclick="copyToClipboard('0559694509')"><svg viewBox="0 0 24 24"><path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/></svg></button>
             </div>
-
             <div class="link-card">
                 <a href="mailto:hoangkhanhminh2005.vl@gmail.com" class="full-link"></a>
                 <div class="icon-box"><svg viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg></div>
                 <span class="link-text">Email</span>
-                <button class="copy-btn" onclick="copyToClipboard('hoangkhanhminh2005.vl@gmail.com')">
-                    <svg viewBox="0 0 24 24"><path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/></svg>
-                </button>
+                <button class="copy-btn" onclick="copyToClipboard('hoangkhanhminh2005.vl@gmail.com')"><svg viewBox="0 0 24 24"><path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/></svg></button>
             </div>
-
             <div class="link-card">
                 <a href="https://files.catbox.moe/3iep3a.jpg" class="full-link" target="_blank"></a>
                 <div class="icon-box"><svg viewBox="0 0 24 24"><path d="M11.5 2L2 6v2h19V6l-9.5-4zM5 10v8h3v-8H5zm5 0v8h3v-8h-3zm5 0v8h3v-8h-3zM2 20v2h19v-2H2z"/></svg></div>
                 <span class="link-text">Bank Account</span>
-                <button class="copy-btn" onclick="copyToClipboard('09082055509999')">
-                    <svg viewBox="0 0 24 24"><path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/></svg>
-                </button>
+                <button class="copy-btn" onclick="copyToClipboard('09082055509999')"><svg viewBox="0 0 24 24"><path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/></svg></button>
             </div>
-
             <a href="https://www.facebook.com/share/1Ttjy7Z7cp/" class="link-card" target="_blank">
                 <div class="icon-box"><svg viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.469h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg></div>
                 <span class="link-text">Facebook</span>
             </a>
-
             <a href="https://www.instagram.com/sharma_retkoc?igsh=bng2aG94YmRmdHAy" class="link-card" target="_blank">
                 <div class="icon-box"><svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c.796 0 1.441.645 1.441 1.44s-.645 1.44-1.441 1.44c-.795 0-1.439-.645-1.439-1.44s.644-1.44 1.439-1.44z"/></svg></div>
                 <span class="link-text">Instagram</span>
             </a>
-
             <a href="https://t.me/hoang_khanh_minh" class="link-card" target="_blank">
                 <div class="icon-box"><svg viewBox="0 0 24 24"><path d="M12 0c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm5.891 8.146l-2.003 9.442c-.149.659-.539.822-1.088.511l-3.047-2.246-1.47 1.415c-.163.163-.299.299-.614.299l.22-3.111 5.663-5.116c.246-.219-.054-.341-.381-.122l-7.001 4.408-3.016-.943c-.657-.206-.669-.658.138-.973l11.776-4.54c.545-.199 1.022.127.863.877z"/></svg></div>
                 <span class="link-text">Telegram</span>
@@ -240,43 +245,61 @@
         </div>
     </div>
 
-    <footer>
-        <p>&copy; 2026 Khánh Minh. All rights reserved.</p>
+    <footer class="system-footer">
+        <div class="badge-grid">
+            <div class="badge-box">
+                <svg viewBox="0 0 24 24" fill="var(--color-1)"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.43.372.823 1.102.823 2.222 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg>
+                <span class="badge-tag">GitHub</span>
+            </div>
+            <div class="badge-box">
+                <svg viewBox="0 0 24 24" fill="var(--color-1)"><path d="M11.4 24H0V12.6h11.4V24zM24 24H12.6V12.6H24V24zM11.4 11.4H0V0h11.4v11.4zM24 11.4H12.6V0H24v11.4z"/></svg>
+                <span class="badge-tag">Microsoft</span>
+            </div>
+            <div class="badge-box">
+                <svg viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg" style="transform: scale(1.4); transform-origin: center;">
+                    <g fill="var(--color-1)">
+                        <path d="M331 326c11-26-4-38-19-38l-148-2c-4 0-4-6 1-7l150-2c17-1 37-15 43-33 0 0 10-21 9-24a97 97 0 0 0-187-11c-38-25-78 9-69 46-48 3-65 46-60 72 0 1 1 2 3 2h274c1 0 3-1 3-3z"/>
+                        <path d="M381 224c-4 0-6-1-7 1l-5 21c-5 16 3 30 20 31l32 2c4 0 4 6-1 7l-33 1c-36 4-46 39-46 39 0 2 0 3 2 3h113l3-2a81 81 0 0 0-78-103"/>
+                    </g>
+                </svg>
+                <span class="badge-tag">Cloudflare</span>
+            </div>
+            <div class="badge-box">
+                <svg viewBox="0 0 24 24" fill="var(--color-1)"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm-2 16l-4-4 1.41-1.41L10 14.17l6.59-6.59L18 9l-8 8z"/></svg>
+                <span class="badge-tag">Verified</span>
+            </div>
+        </div>
+        <div class="tech-info">
+            Protected by <b>Cloudflare Edge Network</b>.<br>
+            Powered by <b>GitHub Enterprise</b> infrastructure.<br>
+            Encrypted with <b>AES-256 TLS Standards</b>.
+        </div>
+        <div class="final-copyright">
+            &copy; 2026 KHANH MINH. AUTHENTIC PROFILE.
+        </div>
     </footer>
 
     <script>
         function copyToClipboard(text) {
-            navigator.clipboard.writeText(text).then(() => {
-                alert('Copied: ' + text);
-            });
+            navigator.clipboard.writeText(text).then(() => { alert('Copied: ' + text); });
         }
 
         const canvas = document.getElementById('meteor-canvas');
         const ctx = canvas.getContext('2d');
-
-        function resize() {
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
-        }
+        function resize() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
         window.addEventListener('resize', resize);
         resize();
-
         const meteors = [];
-
         class Meteor {
-            constructor() {
-                this.reset();
-            }
-
+            constructor() { this.reset(); }
             reset() {
                 this.x = Math.random() * (canvas.width + 200);
                 this.y = Math.random() * -100;
                 this.size = Math.random() * 0.8 + 0.2; 
                 this.speed = Math.random() * 2 + 1; 
                 this.length = Math.random() * 40 + 10;
-                this.opacity = Math.random() * 0.3 + 0.1;
+                this.opacity = Math.random() * 0.2 + 0.1;
             }
-
             draw() {
                 ctx.beginPath();
                 ctx.strokeStyle = `rgba(64, 109, 97, ${this.opacity})`;
@@ -285,30 +308,17 @@
                 ctx.lineTo(this.x - this.length, this.y + this.length);
                 ctx.stroke();
             }
-
             update() {
-                this.x -= this.speed;
-                this.y += this.speed;
-
-                if (this.y > canvas.height * 0.5 || this.x < -50) {
-                    this.reset();
-                }
+                this.x -= this.speed; this.y += this.speed;
+                if (this.y > canvas.height * 0.5 || this.x < -50) { this.reset(); }
             }
         }
-
-        for (let i = 0; i < 40; i++) {
-            meteors.push(new Meteor());
-        }
-
+        for (let i = 0; i < 30; i++) { meteors.push(new Meteor()); }
         function animate() {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
-            meteors.forEach(m => {
-                m.draw();
-                m.update();
-            });
+            meteors.forEach(m => { m.draw(); m.update(); });
             requestAnimationFrame(animate);
         }
-
         animate();
     </script>
 </body>
